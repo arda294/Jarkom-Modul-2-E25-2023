@@ -716,62 +716,176 @@ Ketika dijalankan lagi, akan host akan berubah-ubah sesuai urutan (round robin)
 ### Soal 11
 > Selain menggunakan Nginx, lakukan konfigurasi Apache Web Server pada worker Abimanyu dengan web server www.abimanyu.yyy.com. Pertama dibutuhkan web server dengan DocumentRoot pada /var/www/abimanyu.yyy
 
+Pertama kita perlu melakukan ``Setup`` kemudian kita juga perlu Menggunakan ``Server Alias`` agar bisa melakukan ``www`` nantinya.
+
 #### Script
 #### Abimanyu
+```
+echo "<VirtualHost *:80>
+        # The ServerName directive sets the request scheme, hostname and port that
+        # the server uses to identify itself. This is used when creating
+        # redirection URLs. In the context of virtual hosts, the ServerName
+        # specifies what hostname must appear in the request's Host: header to
+        # match this virtual host. For the default virtual host (this file) this
+        # value is not decisive as it is used as a last resort host regardless.
+        # However, you must set it for any further virtual host explicitly.
+        #ServerName www.example.com
+
+        ServerName abimanyu.e25.com
+        ServerAlias www.abimanyu.e25.com
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/abimanyu.e25
+
+        # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+        # error, crit, alert, emerg.
+        # It is also possible to configure the loglevel for particular
+        # modules, e.g.
+        #LogLevel info ssl:warn
+
+        <Directory /var/www/abimanyu.e25>
+            Options +FollowSymLinks -Multiviews
+            AllowOverride All
+        </Directory>
+
+        ErrorLog \${APACHE_LOG_DIR}/error.log
+        CustomLog \${APACHE_LOG_DIR}/access.log combined
+
+        # For most configuration files from conf-available/, which are
+        # enabled or disabled at a global level, it is possible to
+        # include a line for only one particular virtual host. For example the
+        # following line enables the CGI configuration for this host only
+        # after it has been globally disabled with "a2disconf".
+        #Include conf-available/serve-cgi-bin.conf
+</VirtualHost>" > /etc/apache2/sites-available/abimanyu.e25.com.conf
+
+a2ensite abimanyu.e25.com.conf
+
+service apache2 restart
+```
+
 ##### Setup
-Pertama kita perlu melakukan setup sebagai berikut:
-``` wget -O '/var/www/abimanyu.e25.com' 'https://drive.usercontent.google.com/download?id=1a4V23hwK9S7hQEDEcv9FL14UkkrHc-Zc'
+```
+wget -O '/var/www/abimanyu.e25.com' 'https://drive.usercontent.google.com/download?id=1a4V23hwK9S7hQEDEcv9FL14UkkrHc-Zc'
 unzip -o /var/www/abimanyu.e25.com -d /var/www/
 mv /var/www/abimanyu.yyy.com /var/www/abimanyu.e25
 rm /var/www/abimanyu.e25.com
-rm -rf /var/www/abimanyu.yyy.com ```
+rm -rf /var/www/abimanyu.yyy.com
+```
 
+##### Sadewa
+``` lynx abimanyu.e25.com ```
 
 #### Hasil
+![Screenshot_42](https://github.com/arda294/Jarkom-Modul-2-E25-2023/assets/108173647/ce526751-a769-4ed2-a7ae-117bdc0419f4)
 
 ### Soal 12
 > Setelah itu ubahlah agar url www.abimanyu.yyy.com/index.php/home menjadi www.abimanyu.yyy.com/home.
 
+Disini kita akan melakukan rewrite index, agar dapat mengakses ``/home``
+
 #### Script
 #### Abimanyu
+```
+<Directory /var/www/abimanyu.e25>
+            Options +FollowSymLinks -Multiviews
+            AllowOverride All
+        </Directory>
+```
+```
+echo 'RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(home)+$ index.php/$1 [NC,L]
+' > /var/www/abimanyu.e25/.htaccess
+```
+
+##### Sadewa
+``` lynx abimanyu.e25.com/home ```
+
 #### Hasil
+![Screenshot_43](https://github.com/arda294/Jarkom-Modul-2-E25-2023/assets/108173647/1e7f08ab-8508-4452-bc7a-255cd2328097)
 
 ### Soal 13
 > Selain itu, pada subdomain www.parikesit.abimanyu.yyy.com, DocumentRoot disimpan pada /var/www/parikesit.abimanyu.yyy
 
+Pertama kita perlu melakukan ``setup``. Kemudian membuat ``Name Server`` dan ``Server Alias``
+
 #### Script
 #### Abimanyu
+```
+echo "<VirtualHost *:80>
+        # The ServerName directive sets the request scheme, hostname and port that
+        # the server uses to identify itself. This is used when creating
+        # redirection URLs. In the context of virtual hosts, the ServerName
+        # specifies what hostname must appear in the request's Host: header to
+        # match this virtual host. For the default virtual host (this file) this
+        # value is not decisive as it is used as a last resort host regardless.
+        # However, you must set it for any further virtual host explicitly.
+        #ServerName www.example.com
+
+        ServerName parikesit.abimanyu.e25.com
+        ServerAlias www.parikesit.abimanyu.e25.com
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/parikesit.abimanyu.e25
+
+        ErrorLog \${APACHE_LOG_DIR}/error.log
+        CustomLog \${APACHE_LOG_DIR}/access.log combined
+
+        # For most configuration files from conf-available/, which are
+        # enabled or disabled at a global level, it is possible to
+        # include a line for only one particular virtual host. For example the
+        # following line enables the CGI configuration for this host only
+        # after it has been globally disabled with "a2disconf".
+        #Include conf-available/serve-cgi-bin.conf
+</VirtualHost>" > /etc/apache2/sites-available/parikesit.abimanyu.e25.com.conf
+```
+
 ##### Setup
-Pertama kita perlu melakukan setup sebagai berikut:
-```wget -O '/var/www/parikesit.abimanyu.e25.com' 'https://drive.usercontent.google.com/download?id=1LdbYntiYVF_NVNgJis1GLCLPEGyIOreS'
+```
+wget -O '/var/www/parikesit.abimanyu.e25.com' 'https://drive.usercontent.google.com/download?id=1LdbYntiYVF_NVNgJis1GLCLPEGyIOreS'
 unzip -o /var/www/parikesit.abimanyu.e25.com -d /var/www/
 mv /var/www/parikesit.abimanyu.yyy.com /var/www/parikesit.abimanyu.e25
 rm /var/www/parikesit.abimanyu.e25.com
 rm -rf /var/www/parikesit.abimanyu.yyy.com
-mkdir /var/www/parikesit.abimanyu.e25/secret```
+mkdir /var/www/parikesit.abimanyu.e25/secret
+```
+
+#### Sadewa
+```
+lynx parikesit.abimanyu.e25.com
+lynx www.parikesit.abimanyu.e25.com
+```
 
 #### Hasil
+![Screenshot_44](https://github.com/arda294/Jarkom-Modul-2-E25-2023/assets/108173647/11dc8092-6e8e-4e1c-a989-dbe392411e7d)
+
 ### Soal 14
 > Pada subdomain tersebut folder /public hanya dapat melakukan directory listing sedangkan pada folder /secret tidak dapat diakses (403 Forbidden).
 
 #### Script
 #### Hasil
+
 ### Soal 15
 > Buatlah kustomisasi halaman error pada folder /error untuk mengganti error kode pada Apache. Error kode yang perlu diganti adalah 404 Not Found dan 403 Forbidden.
 
 #### Script
 #### Hasil
+
 ### Soal 16
 > Buatlah suatu konfigurasi virtual host agar file asset www.parikesit.abimanyu.yyy.com/public/js menjadi 
 www.parikesit.abimanyu.yyy.com/js 
 
 #### Script
 #### Hasil
+
 ### Soal 17
 > Agar aman, buatlah konfigurasi agar www.rjp.baratayuda.abimanyu.yyy.com hanya dapat diakses melalui port 14000 dan 14400.
 
 #### Script
 #### Hasil
+
 ### Soal 18
 > Untuk mengaksesnya buatlah autentikasi username berupa “Wayang” dan password “baratayudayyy” dengan yyy merupakan kode kelompok. Letakkan DocumentRoot pada /var/www/rjp.baratayuda.abimanyu.yyy.
 
