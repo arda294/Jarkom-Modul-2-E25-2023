@@ -840,6 +840,10 @@ echo "<VirtualHost *:80>
         # after it has been globally disabled with "a2disconf".
         #Include conf-available/serve-cgi-bin.conf
 </VirtualHost>" > /etc/apache2/sites-available/parikesit.abimanyu.e25.com.conf
+
+a2ensite parikesit.abimanyu.e25.com.conf
+
+service apache2 restart
 ```
 
 ##### Setup
@@ -869,13 +873,48 @@ Karena kita mau mengizinkan public agar dapat melakukan directory listing kita m
 #### Script
 #### Abimanyu
 ```
-<Directory /var/www/parikesit.abimanyu.e25/public>
-    Options +Indexes
-</Directory>
+echo "<VirtualHost *:80>
+        # The ServerName directive sets the request scheme, hostname and port that
+        # the server uses to identify itself. This is used when creating
+        # redirection URLs. In the context of virtual hosts, the ServerName
+        # specifies what hostname must appear in the request's Host: header to
+        # match this virtual host. For the default virtual host (this file) this
+        # value is not decisive as it is used as a last resort host regardless.
+        # However, you must set it for any further virtual host explicitly.
+        #ServerName www.example.com
 
-<Directory /var/www/parikesit.abimanyu.e25/secret>
-    Options -Indexes
-</Directory>
+        ServerName parikesit.abimanyu.e25.com
+        ServerAlias www.parikesit.abimanyu.e25.com
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/parikesit.abimanyu.e25
+
+        # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+        # error, crit, alert, emerg.
+        # It is also possible to configure the loglevel for particular
+        # modules, e.g.
+        #LogLevel info ssl:warn
+
+        <Directory /var/www/parikesit.abimanyu.e25/public>
+            Options +Indexes
+        </Directory>
+
+        <Directory /var/www/parikesit.abimanyu.e25/secret>
+            Options -Indexes
+        </Directory>
+
+        ErrorLog \${APACHE_LOG_DIR}/error.log
+        CustomLog \${APACHE_LOG_DIR}/access.log combined
+
+        # For most configuration files from conf-available/, which are
+        # enabled or disabled at a global level, it is possible to
+        # include a line for only one particular virtual host. For example the
+        # following line enables the CGI configuration for this host only
+        # after it has been globally disabled with "a2disconf".
+        #Include conf-available/serve-cgi-bin.conf
+</VirtualHost>" > /etc/apache2/sites-available/parikesit.abimanyu.e25.com.conf
+
+service apache2 restart
 ```
 
 #### Sadewa
@@ -885,8 +924,10 @@ lynx parikesit.abimanyu.e25.com/secret
 ```
 
 #### Hasil
-
+##### Public
 ![Screenshot_45](https://github.com/arda294/Jarkom-Modul-2-E25-2023/assets/108173647/bb8fae02-56e0-4a31-92ae-a44b46bd03a2)
+
+##### Secret
 ![Screenshot_46](https://github.com/arda294/Jarkom-Modul-2-E25-2023/assets/108173647/521fb753-3198-44ff-9792-076c37894fae)
 ![Screenshot_47](https://github.com/arda294/Jarkom-Modul-2-E25-2023/assets/108173647/6e6c5236-f91f-4a5f-a29f-74626d7941ea)
 
@@ -894,26 +935,299 @@ lynx parikesit.abimanyu.e25.com/secret
 > Buatlah kustomisasi halaman error pada folder /error untuk mengganti error kode pada Apache. Error kode yang perlu diganti adalah 404 Not Found dan 403 Forbidden.
 
 #### Script
+#### Abimanyu
+```
+echo "<VirtualHost *:80>
+        # The ServerName directive sets the request scheme, hostname and port that
+        # the server uses to identify itself. This is used when creating
+        # redirection URLs. In the context of virtual hosts, the ServerName
+        # specifies what hostname must appear in the request's Host: header to
+        # match this virtual host. For the default virtual host (this file) this
+        # value is not decisive as it is used as a last resort host regardless.
+        # However, you must set it for any further virtual host explicitly.
+        #ServerName www.example.com
+
+        ServerName parikesit.abimanyu.e25.com
+        ServerAlias www.parikesit.abimanyu.e25.com
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/parikesit.abimanyu.e25
+
+        # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+        # error, crit, alert, emerg.
+        # It is also possible to configure the loglevel for particular
+        # modules, e.g.
+        #LogLevel info ssl:warn
+
+        <Directory /var/www/parikesit.abimanyu.e25/public>
+            Options +Indexes
+        </Directory>
+
+        <Directory /var/www/parikesit.abimanyu.e25/secret>
+            Options -Indexes
+        </Directory>
+
+        ErrorDocument 404 /error/404.html
+        ErrorDocument 403 /error/403.html
+
+        ErrorLog \${APACHE_LOG_DIR}/error.log
+        CustomLog \${APACHE_LOG_DIR}/access.log combined
+
+        # For most configuration files from conf-available/, which are
+        # enabled or disabled at a global level, it is possible to
+        # include a line for only one particular virtual host. For example the
+        # following line enables the CGI configuration for this host only
+        # after it has been globally disabled with "a2disconf".
+        #Include conf-available/serve-cgi-bin.conf
+</VirtualHost>" > /etc/apache2/sites-available/parikesit.abimanyu.e25.com.conf
+
+service apache2 restart
+```
+
+#### Sadewa
+```
+lynx parikesit.abimanyu.e25.com/testerror
+lynx parikesit.abimanyu.e25.com/secret
+```
+
 #### Hasil
+##### Error
+![Screenshot_48](https://github.com/arda294/Jarkom-Modul-2-E25-2023/assets/108173647/e01efea0-0db2-4d44-94ce-ed65e3ffc22c)
+![Screenshot_49](https://github.com/arda294/Jarkom-Modul-2-E25-2023/assets/108173647/40f6f965-264f-427d-9f1f-86560578ad8d)
+
+##### Forbidden
+![Screenshot_50](https://github.com/arda294/Jarkom-Modul-2-E25-2023/assets/108173647/1da26c8b-1337-4f20-9541-aa8d22b2a81e)
+![Screenshot_51](https://github.com/arda294/Jarkom-Modul-2-E25-2023/assets/108173647/7c026180-cbbf-4ed7-be1e-370edb07e64e)
 
 ### Soal 16
 > Buatlah suatu konfigurasi virtual host agar file asset www.parikesit.abimanyu.yyy.com/public/js menjadi 
 www.parikesit.abimanyu.yyy.com/js 
 
+Disini kita hanya perlu menggunakan Alias ``"/js"`` ``"/var/www/parikesit.abimanyu.a09/public/js"`` untuk mengubah virtual host agar file tersebut menjadi lebih singkat. Disini kami juga menggunakan ``ServerName`` dan ``ServerAlias`` agar virtual host dapat berjalan.
+
 #### Script
+#### Abimanyu
+```
+echo "<VirtualHost *:80>
+        # The ServerName directive sets the request scheme, hostname and port that
+        # the server uses to identify itself. This is used when creating
+        # redirection URLs. In the context of virtual hosts, the ServerName
+        # specifies what hostname must appear in the request's Host: header to
+        # match this virtual host. For the default virtual host (this file) this
+        # value is not decisive as it is used as a last resort host regardless.
+        # However, you must set it for any further virtual host explicitly.
+        #ServerName www.example.com
+
+        ServerName parikesit.abimanyu.e25.com
+        ServerAlias www.parikesit.abimanyu.e25.com
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/parikesit.abimanyu.e25
+
+        # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+        # error, crit, alert, emerg.
+        # It is also possible to configure the loglevel for particular
+        # modules, e.g.
+        #LogLevel info ssl:warn
+
+        <Directory /var/www/parikesit.abimanyu.e25/public>
+            Options +Indexes
+        </Directory>
+
+        <Directory /var/www/parikesit.abimanyu.e25/secret>
+            Options -Indexes
+        </Directory>
+
+        <Directory /var/www/parikesit.abimanyu.e25/public/js>
+            Options +Indexes
+        </Directory>
+
+        Alias "/js" "/var/www/parikesit.abimanyu.e25/public/js"
+
+        ErrorDocument 404 /error/404.html
+        ErrorDocument 403 /error/403.html
+
+        ErrorLog \${APACHE_LOG_DIR}/error.log
+        CustomLog \${APACHE_LOG_DIR}/access.log combined
+
+        # For most configuration files from conf-available/, which are
+        # enabled or disabled at a global level, it is possible to
+        # include a line for only one particular virtual host. For example the
+        # following line enables the CGI configuration for this host only
+        # after it has been globally disabled with "a2disconf".
+        #Include conf-available/serve-cgi-bin.conf
+</VirtualHost>" > /etc/apache2/sites-available/parikesit.abimanyu.e25.com.conf
+
+service apache2 restart
+```
+
+#### Sadewa
+```lynx parikesit.abimanyu.e25.com/js```
+
 #### Hasil
+![Screenshot_52](https://github.com/arda294/Jarkom-Modul-2-E25-2023/assets/108173647/1c8623c0-4e68-48f4-b243-a5a782d2cb0c)
 
 ### Soal 17
 > Agar aman, buatlah konfigurasi agar www.rjp.baratayuda.abimanyu.yyy.com hanya dapat diakses melalui port 14000 dan 14400.
 
+Untuk melakukan kustomisasi pada port tertentu. Kita hanya perlu mengubah file ports.conf dengan menambahkan ``Listen 14000`` dan ``Listen 14400``. Kita juga perlu mengubah ``<VirtualHost *:14000 *:14400>``
+
 #### Script
+#### Abimanyu
+```
+echo "# If you just change the port or add more ports here, you will likely also
+# have to change the VirtualHost statement in
+# /etc/apache2/sites-enabled/000-default.conf
+
+Listen 80
+Listen 14000
+Listen 14400
+
+<IfModule ssl_module>
+        Listen 443
+</IfModule>
+
+<IfModule mod_gnutls.c>
+        Listen 443
+</IfModule>
+
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet" > /etc/apache2/ports.conf
+```
+
+```
+echo "<VirtualHost *:14000 *:14400>
+        # The ServerName directive sets the request scheme, hostname and port that
+        # the server uses to identify itself. This is used when creating
+        # redirection URLs. In the context of virtual hosts, the ServerName
+        # specifies what hostname must appear in the request's Host: header to
+        # match this virtual host. For the default virtual host (this file) this
+        # value is not decisive as it is used as a last resort host regardless.
+        # However, you must set it for any further virtual host explicitly.
+        #ServerName www.example.com
+
+        ServerName rjp.baratayuda.abimanyu.e25.com
+        ServerAlias www.rjp.baratayuda.abimanyu.e25.com
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/rjp.baratayuda.abimanyu.e25
+
+        # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+        # error, crit, alert, emerg.
+        # It is also possible to configure the loglevel for particular
+        # modules, e.g.
+        #LogLevel info ssl:warn
+
+        ErrorLog \${APACHE_LOG_DIR}/error.log
+        CustomLog \${APACHE_LOG_DIR}/access.log combined
+
+        # For most configuration files from conf-available/, which are
+        # enabled or disabled at a global level, it is possible to
+        # include a line for only one particular virtual host. For example the
+        # following line enables the CGI configuration for this host only
+        # after it has been globally disabled with "a2disconf".
+        #Include conf-available/serve-cgi-bin.conf
+</VirtualHost>" > /etc/apache2/sites-available/rjp.baratayuda.abimanyu.e25.com.conf
+
+a2ensite rjp.baratayuda.abimanyu.e25.com.conf
+
+service apache2 restart
+```
+
+#### Sadewa
+```
+lynx rjp.baratayuda.abimanyu.e25.com:14000
+lynx rjp.baratayuda.abimanyu.e25.com:14400
+```
+
 #### Hasil
+##### Port 14000
+![Screenshot_56](https://github.com/arda294/Jarkom-Modul-2-E25-2023/assets/108173647/039bae7c-9670-4928-a4d2-2a99290afe58)
+
+##### Port 14400
+![Screenshot_57](https://github.com/arda294/Jarkom-Modul-2-E25-2023/assets/108173647/65edc2ac-d28f-445f-967e-8f721e83ad09)
+
+##### Port Acak
+![Screenshot_58](https://github.com/arda294/Jarkom-Modul-2-E25-2023/assets/108173647/8b51f9ec-0448-4c82-b917-a94e569a85a4)
+
 
 ### Soal 18
 > Untuk mengaksesnya buatlah autentikasi username berupa “Wayang” dan password “baratayudayyy” dengan yyy merupakan kode kelompok. Letakkan DocumentRoot pada /var/www/rjp.baratayuda.abimanyu.yyy.
 
+Untuk melakukan autentikasi pada sebuah server, diperlukan AuthType dan Require Valid-User. Lalu untuk AuthUserFile sendiri adalah tempat yang ingin kita gunakan untuk melakukan write. Sedangkan untuk AuthName adalah content-type Autentikasi pada apache2
+
 #### Script
+#### Abimanyu
+```
+echo "<VirtualHost *:14000 *:14400>
+        # The ServerName directive sets the request scheme, hostname and port that
+        # the server uses to identify itself. This is used when creating
+        # redirection URLs. In the context of virtual hosts, the ServerName
+        # specifies what hostname must appear in the request's Host: header to
+        # match this virtual host. For the default virtual host (this file) this
+        # value is not decisive as it is used as a last resort host regardless.
+        # However, you must set it for any further virtual host explicitly.
+        #ServerName www.example.com
+
+        ServerName rjp.baratayuda.abimanyu.e25.com
+        ServerAlias www.rjp.baratayuda.abimanyu.e25.com
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/rjp.baratayuda.abimanyu.e25
+
+        # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+        # error, crit, alert, emerg.
+        # It is also possible to configure the loglevel for particular
+        # modules, e.g.
+        #LogLevel info ssl:warn
+
+        ErrorLog \${APACHE_LOG_DIR}/error.log
+        CustomLog \${APACHE_LOG_DIR}/access.log combined
+
+        <Location />
+            AuthType Basic
+            AuthName "Secret"
+            AuthUserFile /var/www/rjp.baratayuda.abimanyu.e25/.htpasswd
+            Require valid-user
+        </Location>
+
+        # For most configuration files from conf-available/, which are
+        # enabled or disabled at a global level, it is possible to
+        # include a line for only one particular virtual host. For example the
+        # following line enables the CGI configuration for this host only
+        # after it has been globally disabled with "a2disconf".
+        #Include conf-available/serve-cgi-bin.conf
+</VirtualHost>" > /etc/apache2/sites-available/rjp.baratayuda.abimanyu.e25.com.conf
+
+a2ensite rjp.baratayuda.abimanyu.e25.com.conf
+
+service apache2 restart
+```
+
+Tambahkan autentikasi dengan menggunakan command htpasswd, pertama masukkan username ``Wayang``
+```htpasswd -c ./.htpasswd Wayang```
+
+Kemudian masukkan password ``baratayudayyy``
+```baratayudae25```
+
+Jika sudah, lakukan 
+```cat htpasswd```
+
+Lalu, masukkan hasilnya ke dalam ``/var/www/rjp.baratayuda.abimanyu.e25/.htpasswd`` seperti berikut.
+```echo 'Wayang:$apr1$4xfsgYei$.mHG8h1QJ0RkyoHTqZ6Fs0' > /var/www/rjp.baratayuda.abimanyu.e25/.htpasswd```
+
+![Screenshot_60](https://github.com/arda294/Jarkom-Modul-2-E25-2023/assets/108173647/884316bd-8f1a-4eb9-a2f1-23906ec501a5)
+
+#### Sadewa
+```
+lynx rjp.baratayuda.abimanyu.e25.com:14000
+lynx rjp.baratayuda.abimanyu.e25.com:14400
+```
+
 #### Hasil
+![Screenshot_53](https://github.com/arda294/Jarkom-Modul-2-E25-2023/assets/108173647/1c26efae-0ebb-4a3b-99c4-415bc0a600ad)
+![Screenshot_54](https://github.com/arda294/Jarkom-Modul-2-E25-2023/assets/108173647/29947fbb-6b03-4e57-a624-3ba8eea50394)
+![Screenshot_55](https://github.com/arda294/Jarkom-Modul-2-E25-2023/assets/108173647/15e8a51a-c5d1-4205-9c4a-4b50a3a480e2)
+![Screenshot_56](https://github.com/arda294/Jarkom-Modul-2-E25-2023/assets/108173647/952a584b-07bd-4140-ba84-0527a97b61fa)
 
 ### Soal 19
 > Buatlah agar setiap kali mengakses IP dari Abimanyu akan secara otomatis dialihkan ke www.abimanyu.yyy.com (alias)
