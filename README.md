@@ -69,7 +69,7 @@ Berikut adalah laporan resmi untuk pengerjaan Praktikum Modul 2 Jarkom DNS dan W
     - [Result](#hasil-19)
   - [Soal 20](#soal-20)
     - [Script](#script-20)
-    - [Result](#result-20)
+    - [Result](#hasil-20)
 
 ## Topologi
 Topologi kelompok kami yaitu topologi 1
@@ -1076,7 +1076,7 @@ lynx parikesit.abimanyu.e25.com/js
 ### Soal 17
 > Agar aman, buatlah konfigurasi agar www.rjp.baratayuda.abimanyu.yyy.com hanya dapat diakses melalui port 14000 dan 14400.
 
-Pertama, kita melakukan setup. Untuk melakukan kustomisasi pada port tertentu. Kita hanya perlu mengubah file ports.conf dengan menambahkan ``Listen 14000`` dan ``Listen 14400``. Kita juga perlu mengubah ``<VirtualHost *:14000 *:14400>``
+Pertama, kita melakukan ``setup``. Untuk melakukan kustomisasi pada port tertentu. Kita hanya perlu mengubah file ports.conf dengan menambahkan ``Listen 14000`` dan ``Listen 14400``. Kita juga perlu mengubah ``<VirtualHost *:14000 *:14400>``
 
 #### Script
 #### Abimanyu
