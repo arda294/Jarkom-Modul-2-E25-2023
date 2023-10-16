@@ -774,7 +774,9 @@ rm -rf /var/www/abimanyu.yyy.com
 ```
 
 ##### Sadewa
-``` lynx abimanyu.e25.com ```
+```
+lynx abimanyu.e25.com
+```
 
 #### Hasil
 ![Screenshot_42](https://github.com/arda294/Jarkom-Modul-2-E25-2023/assets/108173647/ce526751-a769-4ed2-a7ae-117bdc0419f4)
@@ -801,7 +803,9 @@ RewriteRule ^(home)+$ index.php/$1 [NC,L]
 ```
 
 ##### Sadewa
-``` lynx abimanyu.e25.com/home ```
+``` 
+lynx abimanyu.e25.com/home
+```
 
 #### Hasil
 ![Screenshot_43](https://github.com/arda294/Jarkom-Modul-2-E25-2023/assets/108173647/1e7f08ab-8508-4452-bc7a-255cd2328097)
@@ -929,7 +933,7 @@ lynx parikesit.abimanyu.e25.com/secret
 
 ##### Secret
 ![Screenshot_46](https://github.com/arda294/Jarkom-Modul-2-E25-2023/assets/108173647/521fb753-3198-44ff-9792-076c37894fae)
-![Screenshot_47](https://github.com/arda294/Jarkom-Modul-2-E25-2023/assets/108173647/6e6c5236-f91f-4a5f-a29f-74626d7941ea)
+![Screenshot_61](https://github.com/arda294/Jarkom-Modul-2-E25-2023/assets/108173647/c6c0dd0c-ac9d-40fe-886e-afde2a14913e)
 
 ### Soal 15
 > Buatlah kustomisasi halaman error pada folder /error untuk mengganti error kode pada Apache. Error kode yang perlu diganti adalah 404 Not Found dan 403 Forbidden.
@@ -1062,7 +1066,9 @@ service apache2 restart
 ```
 
 #### Sadewa
-```lynx parikesit.abimanyu.e25.com/js```
+```
+lynx parikesit.abimanyu.e25.com/js
+```
 
 #### Hasil
 ![Screenshot_52](https://github.com/arda294/Jarkom-Modul-2-E25-2023/assets/108173647/1c8623c0-4e68-48f4-b243-a5a782d2cb0c)
@@ -1070,7 +1076,7 @@ service apache2 restart
 ### Soal 17
 > Agar aman, buatlah konfigurasi agar www.rjp.baratayuda.abimanyu.yyy.com hanya dapat diakses melalui port 14000 dan 14400.
 
-Untuk melakukan kustomisasi pada port tertentu. Kita hanya perlu mengubah file ports.conf dengan menambahkan ``Listen 14000`` dan ``Listen 14400``. Kita juga perlu mengubah ``<VirtualHost *:14000 *:14400>``
+Pertama, kita melakukan setup. Untuk melakukan kustomisasi pada port tertentu. Kita hanya perlu mengubah file ports.conf dengan menambahkan ``Listen 14000`` dan ``Listen 14400``. Kita juga perlu mengubah ``<VirtualHost *:14000 *:14400>``
 
 #### Script
 #### Abimanyu
@@ -1133,6 +1139,15 @@ a2ensite rjp.baratayuda.abimanyu.e25.com.conf
 service apache2 restart
 ```
 
+##### Setup
+```
+wget -O '/var/www/rjp.baratayuda.abimanyu.e25.com' 'https://drive.usercontent.google.com/download?id=1pPSP7yIR05JhSFG67RVzgkb-VcW9vQO6'
+unzip -o /var/www/rjp.baratayuda.abimanyu.e25.com -d /var/www/
+mv /var/www/rjp.baratayuda.abimanyu.yyy.com /var/www/rjp.baratayuda.abimanyu.e25
+rm /var/www/rjp.baratayuda.abimanyu.e25.com
+rm -rf /var/www/rjp.baratayuda.abimanyu.yyy.com
+```
+
 #### Sadewa
 ```
 lynx rjp.baratayuda.abimanyu.e25.com:14000
@@ -1151,7 +1166,7 @@ lynx rjp.baratayuda.abimanyu.e25.com:14400
 
 
 ### Soal 18
-> Untuk mengaksesnya buatlah autentikasi username berupa “Wayang” dan password “baratayudayyy” dengan yyy merupakan kode kelompok. Letakkan DocumentRoot pada /var/www/rjp.baratayuda.abimanyu.yyy.
+> Untuk mengaksesnya buatlah autentikasi username berupa ``“Wayang”`` dan ``password “baratayudayyy”`` dengan ``yyy`` merupakan kode kelompok. Letakkan DocumentRoot pada ``/var/www/rjp.baratayuda.abimanyu.yyy``.
 
 Untuk melakukan autentikasi pada sebuah server, diperlukan AuthType dan Require Valid-User. Lalu untuk AuthUserFile sendiri adalah tempat yang ingin kita gunakan untuk melakukan write. Sedangkan untuk AuthName adalah content-type Autentikasi pada apache2
 
@@ -1203,17 +1218,25 @@ a2ensite rjp.baratayuda.abimanyu.e25.com.conf
 service apache2 restart
 ```
 
-Tambahkan autentikasi dengan menggunakan command htpasswd, pertama masukkan username ``Wayang``
-```htpasswd -c ./.htpasswd Wayang```
+Tambahkan autentikasi dengan menggunakan command htpasswd, pertama masukkan username ``Wayang`` menggunakan command
+```
+htpasswd -c ./.htpasswd Wayang
+```
 
-Kemudian masukkan password ``baratayudayyy``
-```baratayudae25```
+Kemudian masukkan password ``baratayudayyy`` yyy diganti nama kelompok
+```
+baratayudae25
+```
 
 Jika sudah, lakukan 
-```cat htpasswd```
+```
+cat htpasswd
+```
 
 Lalu, masukkan hasilnya ke dalam ``/var/www/rjp.baratayuda.abimanyu.e25/.htpasswd`` seperti berikut.
-```echo 'Wayang:$apr1$4xfsgYei$.mHG8h1QJ0RkyoHTqZ6Fs0' > /var/www/rjp.baratayuda.abimanyu.e25/.htpasswd```
+```
+echo 'Wayang:$apr1$4xfsgYei$.mHG8h1QJ0RkyoHTqZ6Fs0' > /var/www/rjp.baratayuda.abimanyu.e25/.htpasswd
+```
 
 ![Screenshot_60](https://github.com/arda294/Jarkom-Modul-2-E25-2023/assets/108173647/884316bd-8f1a-4eb9-a2f1-23906ec501a5)
 
