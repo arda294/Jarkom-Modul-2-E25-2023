@@ -788,8 +788,88 @@ Sadewa menajalankan command ``lynx 10.49.3.4``
 
 ![image](https://github.com/arda294/Jarkom-Modul-2-E25-2023/assets/114855785/bc79e5a3-f088-4ecc-8be1-d8b9b8adb43d)
 ### Soal 20
+> Karena website www.parikesit.abimanyu.yyy.com semakin banyak pengunjung dan banyak gambar gambar random, maka ubahlah request gambar yang memiliki substring “abimanyu” akan diarahkan menuju abimanyu.png.
+
+Untuk melakukan hal itu, akan diperlukan file ``.htaccess`` pada directory ``/var/www/parikesit.abimanyu.e25/public/images`` yang rewrite uri menjadi abimanyu.png ketika terdapat substring abimanyu pada uri.
 #### Script
+```
+echo "<VirtualHost *:80>
+        # The ServerName directive sets the request scheme, hostname and port that
+        # the server uses to identify itself. This is used when creating
+        # redirection URLs. In the context of virtual hosts, the ServerName
+        # specifies what hostname must appear in the request's Host: header to
+        # match this virtual host. For the default virtual host (this file) this
+        # value is not decisive as it is used as a last resort host regardless.
+        # However, you must set it for any further virtual host explicitly.
+        #ServerName www.example.com
+
+        ServerName parikesit.abimanyu.e25.com
+        ServerAlias www.parikesit.abimanyu.e25.com
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/parikesit.abimanyu.e25
+
+        # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+        # error, crit, alert, emerg.
+        # It is also possible to configure the loglevel for particular
+        # modules, e.g.
+        #LogLevel info ssl:warn
+
+        <Directory /var/www/parikesit.abimanyu.e25/public>
+            Options +Indexes
+        </Directory>
+
+        <Directory /var/www/parikesit.abimanyu.e25/secret>
+            Options -Indexes
+        </Directory>
+
+        <Directory /var/www/parikesit.abimanyu.e25/public/js>
+            Options +Indexes
+        </Directory>
+
+        Alias "/js" "/var/www/parikesit.abimanyu.e25/public/js"
+
+        <Directory /var/www/parikesit.abimanyu.e25/public/images>
+            Options +FollowSymLinks +Indexes -Multiviews
+            AllowOverride All
+        </Directory>
+
+        ErrorDocument 404 /error/404.html
+        ErrorDocument 403 /error/403.html
+
+        ErrorLog \${APACHE_LOG_DIR}/error.log
+        CustomLog \${APACHE_LOG_DIR}/access.log combined
+
+        # For most configuration files from conf-available/, which are
+        # enabled or disabled at a global level, it is possible to
+        # include a line for only one particular virtual host. For example the
+        # following line enables the CGI configuration for this host only
+        # after it has been globally disabled with "a2disconf".
+        #Include conf-available/serve-cgi-bin.conf
+</VirtualHost>" > /etc/apache2/sites-available/parikesit.abimanyu.e25.com.conf
+
+echo '
+RewriteEngine On
+RewriteCond %{REQUEST_URI} abimanyu
+RewriteRule .* abimanyu.png [NC,L]
+' > /var/www/parikesit.abimanyu.e25/public/images/.htaccess
+
+service apache2 restart
+```
+
+Pada config virtual host, ditambahkan directory ``/var/www/parikesit.abimanyu.e25/public/images`` yang berisi options ``+FollowSymLinks +Indexes -Multiviews`` dan ``AllowOverride All`` agar rewrite dapat dilakukan pada ``.htaccess``. Kemudian, file ``.htaccess`` berisi rewrite condition ``abimanyu`` yang akan mencari substring ``abimanyu`` pada request uri. Ketika pattern tersebut match, akan melakukan rewrite uri menjadi ``abimanyu.png`` 
 #### Hasil
+Sadewa melakukan command ``lynx parikesit.abimanyu.e25.com/public/images/abimanyu-student.jpg``
+
+![image](https://github.com/arda294/Jarkom-Modul-2-E25-2023/assets/114855785/4e5ca4dc-4f31-4139-b3bc-441e3a2fb348)
+![image](https://github.com/arda294/Jarkom-Modul-2-E25-2023/assets/114855785/451cdcf4-e1c9-4219-bc8a-a2729d93f562)
+
+Jika dilihat file abimanyu-student.jpg yang didownload, ukuran filenya telah sesuai dengan file abimanyu.png yang ada pada ``parikesit.abimanyu.e25.com``
+
+![image](https://github.com/arda294/Jarkom-Modul-2-E25-2023/assets/114855785/babcc004-aa9c-4d3a-8921-43db479d365b)
+
+
+
 
 
 
