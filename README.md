@@ -615,7 +615,7 @@ Abimanyu:8002
 Wisanggeni:8003
 
 Lanjutan dari soal 9, config nginx yang listen pada port sesuai diatas untuk masing-masing node.
-#### Script]
+#### Script
 Pada arjuna :
 ```
 apt-get install bind9 nginx -y
