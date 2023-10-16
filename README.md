@@ -14,62 +14,62 @@ Berikut adalah laporan resmi untuk pengerjaan Praktikum Modul 2 Jarkom DNS dan W
     - [Script](#script)
     - [Hasil](#hasil)
   - [Soal 2](#soal-2)
-    - [Script](#script-1)
-    - [Hasil](#hasil-1)
-  - [Soal 3](#soal-3)
     - [Script](#script-2)
     - [Hasil](#hasil-2)
-  - [Soal 4](#soal-4)
+  - [Soal 3](#soal-3)
     - [Script](#script-3)
     - [Hasil](#hasil-3)
-  - [Soal 5](#soal-5)
+  - [Soal 4](#soal-4)
     - [Script](#script-4)
     - [Hasil](#hasil-4)
-  - [Soal 6](#soal-6)
+  - [Soal 5](#soal-5)
     - [Script](#script-5)
     - [Hasil](#hasil-5)
-  - [Soal 7](#soal-7)
+  - [Soal 6](#soal-6)
     - [Script](#script-6)
     - [Hasil](#hasil-6)
-  - [Soal 8](#soal-8)
+  - [Soal 7](#soal-7)
     - [Script](#script-7)
     - [Hasil](#hasil-7)
-  - [Soal 9](#soal-9)
+  - [Soal 8](#soal-8)
     - [Script](#script-8)
     - [Hasil](#hasil-8)
-  - [Soal 10](#soal-10)
+  - [Soal 9](#soal-9)
     - [Script](#script-9)
     - [Hasil](#hasil-9)
-  - [Soal 11](#soal-11)
+  - [Soal 10](#soal-10)
     - [Script](#script-10)
-    - [Result](#result-10)
-  - [Soal 12](#soal-12)
+    - [Hasil](#hasil-10)
+  - [Soal 11](#soal-11)
     - [Script](#script-11)
-    - [Result](#result-11)
-  - [Soal 13](#soal-13)
+    - [Result](#hasil-11)
+  - [Soal 12](#soal-12)
     - [Script](#script-12)
-    - [Result](#result-12)
-  - [Soal 14](#soal-14)
+    - [Result](#hasil-12)
+  - [Soal 13](#soal-13)
     - [Script](#script-13)
-    - [Result](#result-13)
-  - [Soal 15](#soal-15)
+    - [Result](#hasil-13)
+  - [Soal 14](#soal-14)
     - [Script](#script-14)
-    - [Result](#result-14)
-  - [Soal 16](#soal-16)
+    - [Result](#hasil-14)
+  - [Soal 15](#soal-15)
     - [Script](#script-15)
-    - [Result](#result-15)
-  - [Soal 17](#soal-17)
+    - [Result](#hasil-15)
+  - [Soal 16](#soal-16)
     - [Script](#script-16)
-    - [Result](#result-16)
-  - [Soal 18](#soal-18)
+    - [Result](#hasil-16)
+  - [Soal 17](#soal-17)
     - [Script](#script-17)
-    - [Result](#result-17)
-  - [Soal 19](#soal-19)
+    - [Result](#hasil-17)
+  - [Soal 18](#soal-18)
     - [Script](#script-18)
-    - [Result](#result-18)
-  - [Soal 20](#soal-20)
+    - [Result](#hasil-18)
+  - [Soal 19](#soal-19)
     - [Script](#script-19)
-    - [Result](#result-19)
+    - [Result](#hasil-19)
+  - [Soal 20](#soal-20)
+    - [Script](#script-20)
+    - [Result](#result-20)
 
 ## Topologi
 Topologi kelompok kami yaitu topologi 1
@@ -864,8 +864,31 @@ lynx www.parikesit.abimanyu.e25.com
 ### Soal 14
 > Pada subdomain tersebut folder /public hanya dapat melakukan directory listing sedangkan pada folder /secret tidak dapat diakses (403 Forbidden).
 
+Karena kita mau mengizinkan public agar dapat melakukan directory listing kita menggunakan Options +Indexes. Sedangkan agar suatu folder tidak dapat di akses, kita dapat menggunakan Option -Indexes.
+
 #### Script
+#### Abimanyu
+```
+<Directory /var/www/parikesit.abimanyu.e25/public>
+    Options +Indexes
+</Directory>
+
+<Directory /var/www/parikesit.abimanyu.e25/secret>
+    Options -Indexes
+</Directory>
+```
+
+#### Sadewa
+```
+lynx parikesit.abimanyu.e25.com/public
+lynx parikesit.abimanyu.e25.com/secret
+```
+
 #### Hasil
+
+![Screenshot_45](https://github.com/arda294/Jarkom-Modul-2-E25-2023/assets/108173647/bb8fae02-56e0-4a31-92ae-a44b46bd03a2)
+![Screenshot_46](https://github.com/arda294/Jarkom-Modul-2-E25-2023/assets/108173647/521fb753-3198-44ff-9792-076c37894fae)
+![Screenshot_47](https://github.com/arda294/Jarkom-Modul-2-E25-2023/assets/108173647/6e6c5236-f91f-4a5f-a29f-74626d7941ea)
 
 ### Soal 15
 > Buatlah kustomisasi halaman error pada folder /error untuk mengganti error kode pada Apache. Error kode yang perlu diganti adalah 404 Not Found dan 403 Forbidden.
